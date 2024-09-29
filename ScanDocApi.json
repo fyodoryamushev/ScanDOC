@@ -1,0 +1,303 @@
+{
+	"info": {
+		"_postman_id": "b8956558-089c-4fc9-9eb5-73079b3f6b0c",
+		"name": "СКАН",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25810733"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"auth_key\",jsonData.accessToken)\r",
+							";"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"{{test_login}}\",\r\n  \"password\": \"{{test_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/account/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Balance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Balance current\", function(){\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"current_balance\",jsonData.balance)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/account/balance",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"account",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Publications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Publication 1\", function(){\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"subjects_name1\",jsonData.subjects[0].name)\r",
+							"});\r",
+							"pm.test(\"Publication 2\", function(){\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"subjects_name2\",jsonData.subjects[1].name)\r",
+							"});\r",
+							"pm.test(\"Publication 3\", function(){\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"subjects_name3\",jsonData.subjects[2].name)\r",
+							"});\r",
+							"pm.test(\"Publication total\", function(){\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"subjects_total \",jsonData.totalCount)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/entities/subjects?index=0&pageSize=3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"entities",
+						"subjects"
+					],
+					"query": [
+						{
+							"key": "index",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ScanDocs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Agents_name\", function(){\r",
+							"   let jsonData =JSON.parse(responseBody);\r",
+							"   pm.collectionVariables.set(\"news_agent_1\", jsonData[0].ok.source.name);\r",
+							"   pm.collectionVariables.set(\"news_agent_2\", jsonData[1].ok.source.name);\r",
+							"   });\r",
+							"   \r",
+							"  \r",
+							"  "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ids\": [\r\n    \"{{id1}}\",\r\n    \"{{id2}}\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/documents",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://gateway.scan-interfax.ru",
+			"type": "string"
+		},
+		{
+			"key": "test_login",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "test_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "auth_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "current_balance",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subjects_name1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subjects_name2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subjects_name3",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subjects_total ",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "id1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "id2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "news_agent_2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "news_agent_1",
+			"value": ""
+		}
+	]
+}
